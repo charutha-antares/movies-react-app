@@ -76,7 +76,7 @@ async function apiCall(options) {
 function endpointCreation() {
   try {
     const app = express()
-    const port = process.env.PORT || 5000
+    const port = process.env.PORT || 6000
 
     app.use(express.static(path.join(__dirname, 'client/build')))
     // required to serve SPA on heroku production without routing problems; it will skip only 'api' calls
