@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment, useCallback } from 'react'
 import i18n from './../i18n.json'
+import { Card, Container, Row, Col } from 'react-bootstrap'
 
 export default function MovieDetails({ selectedMovie, lang }) {
   const [data, setData] = useState(null)
@@ -140,6 +141,24 @@ export default function MovieDetails({ selectedMovie, lang }) {
     return importantCrewMembers
   }
 
+  const getCast = () => {
+    const imagePath = 'https://image.tmdb.org/t/p/w500'
+    const castDetails = data.credits.cast
+    return (castDetails.slice(0, 10).map (castMember => {
+      return (
+        <Col md="auto">
+          <Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={imagePath + castMember.profile_path} />
+            <Card.Body>
+              <Card.Title>{castMember.original_name}</Card.Title>
+              <Card.Text>{castMember.character}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      )
+    }))
+  }
   const bgImage = dataIsReady
     ? 'linear-gradient(rgba(52,58,64,.6), rgba(52,58,64,.6)), url(https://image.tmdb.org/t/p/w1280' + getBackground() + ')'
     : 'url(data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==)'
@@ -190,6 +209,12 @@ export default function MovieDetails({ selectedMovie, lang }) {
               <strong>{labels.voted[lang]}</strong> ★{getVotes()}/10
               <br />
             </div>
+
+            <Container fluid="md">
+              <Row className="justify-content-md-center">
+                {getCast ()}
+              </Row>
+            </Container>
           </div>
         </div>
       ) : null}
