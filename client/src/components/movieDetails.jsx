@@ -5,8 +5,6 @@ export default function MovieDetails({ selectedMovie, lang }) {
   const [data, setData] = useState(null)
   const [dataIsReady, setDataIsReady] = useState(false)
   const [id] = useState(selectedMovie)
-  const [displayedCastMembers, setDisplayedCastMembers] = useState(5)
-  const [fullCastIsOpened, setFullCastIsOpened] = useState(false)
   const [labels] = useState(i18n.details)
 
   const getTmdbApi = useCallback(async () => {
@@ -142,42 +140,6 @@ export default function MovieDetails({ selectedMovie, lang }) {
     return importantCrewMembers
   }
 
-  const getCast = () => {
-    const castImageBase = 'https://image.tmdb.org/t/p/w90_and_h90_face'
-    const castArray = data.credits.cast
-    const cast = castArray.slice(0, displayedCastMembers).map(castMember => (
-      <Fragment key={castMember.id + castMember.character}>
-        <li className='media my-3'>
-          {castMember.profile_path ? (
-            <img alt={castMember.name} src={castImageBase + castMember.profile_path} className='mr-3 rounded-circle' />
-          ) : (
-            <div className='mr-3'>
-              <svg width='90' height='90'>
-                <circle cx='45' cy='45' r='45' fill='#D5D8DC' />
-                Sorry, your browser does not support inline SVG.
-              </svg>{' '}
-            </div>
-          )}
-          <div className='media-body'>
-            <h5 className='mt-0 mb-1'>{castMember.name}</h5>
-            {labels.as[lang]} {castMember.character}
-          </div>
-        </li>
-      </Fragment>
-    ))
-    return cast
-  }
-
-  const setDisplayedCastFn = () => {
-    setDisplayedCastMembers(displayedCastMembers.length)
-    setFullCastIsOpened(true)
-  }
-
-  const setBackDisplayedCastFn = () => {
-    setDisplayedCastMembers(5)
-    setFullCastIsOpened(false)
-  }
-
   const bgImage = dataIsReady
     ? 'linear-gradient(rgba(52,58,64,.6), rgba(52,58,64,.6)), url(https://image.tmdb.org/t/p/w1280' + getBackground() + ')'
     : 'url(data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==)'
@@ -227,19 +189,6 @@ export default function MovieDetails({ selectedMovie, lang }) {
               <br />
               <strong>{labels.voted[lang]}</strong> ★{getVotes()}/10
               <br />
-            </div>
-            <div className='col my-3'>
-              <h4>{labels.cast[lang]}</h4>
-              <ul className='list-unstyled'>{getCast()}</ul>
-              {!fullCastIsOpened ? (
-                <button className='btn btn-dark' onClick={setDisplayedCastFn}>
-                  {labels.showCast[lang]}
-                </button>
-              ) : (
-                <button className='btn btn-dark' onClick={setBackDisplayedCastFn}>
-                  {labels.hideCast[lang]}
-                </button>
-              )}
             </div>
           </div>
         </div>

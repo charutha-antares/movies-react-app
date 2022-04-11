@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
-import CookieBar from './cookieBar'
 import Header from './header'
 import Footer from './footer'
 import HomepageWrapper from './homepageWrapper'
@@ -17,7 +16,6 @@ export default function App() {
       <nav className='lang-position'>
         <LangSelector lang={lang} currentLang='en' /> <LangSelector lang={lang} currentLang='sv' />
       </nav>
-      <CookieBar lang={lang} />
       <Header lang={lang} />
       <BrowserRouter>
         <Switch>

@@ -76,15 +76,9 @@ async function apiCall(options) {
 function endpointCreation() {
   try {
     const app = express()
-    const port = process.env.PORT || 6000
+    const port = 6000
 
     app.use(express.static(path.join(__dirname, 'client/build')))
-    // required to serve SPA on heroku production without routing problems; it will skip only 'api' calls
-    if (process.env.NODE_ENV === 'production') {
-      app.get(/^((?!(api)).)*$/, function(req, res) {
-        res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
-      })
-    }
 
     // providing a constant endpoint for trending movies
     app.get('/api/:lang/trending', async (req, res) => {
